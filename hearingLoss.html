@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hearing Loss Questionnaire</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+        }
+        h2 {
+            text-align: center;
+        }
+        .button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Hearing Loss Questionnaire</h2>
+    <form id="questionnaireForm">
+        <label>Is the hearing loss in one or both ears?</label><br>
+        <input type="radio" name="hearingSide" value="one"> One Ear<br>
+        <input type="radio" name="hearingSide" value="both"> Both Ears<br><br>
+
+        <label>When did you first notice it?</label><br>
+        <input type="date"><br><br>
+
+        <button type="submit" class="button">Next</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById("questionnaireForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        let symptomQueue = JSON.parse(localStorage.getItem("symptomQueue")) || [];
+        symptomQueue.shift(); // Remove the current symptom from the queue
+
+        if (symptomQueue.length > 0) {
+            localStorage.setItem("symptomQueue", JSON.stringify(symptomQueue));
+            window.location.href = symptomQueue[0] + ".html";
+        } else {
+            localStorage.removeItem("symptomQueue");
+            window.location.href = "summary.html"; // Redirect to final summary page
+        }
+    });
+</script>
+
+</body>
+</html>
