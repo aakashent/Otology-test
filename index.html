@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ear Symptom Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+        }
+        h2 {
+            text-align: center;
+        }
+        .symptom-list {
+            list-style: none;
+            padding: 0;
+        }
+        .symptom-list li {
+            margin: 10px 0;
+        }
+        .button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Ear Symptom Checker</h2>
+    <p>Select your symptoms:</p>
+    <ul class="symptom-list">
+        <li><input type="checkbox" value="hearingLoss"> Hearing Loss</li>
+        <li><input type="checkbox" value="tinnitus"> Tinnitus (Ringing in the ears)</li>
+    </ul>
+
+    <button class="button" id="continueButton" disabled>Continue</button>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const checkboxes = document.querySelectorAll("input[type=checkbox]");
+        const continueButton = document.getElementById("continueButton");
+
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener("change", function() {
+                const selectedSymptoms = [...checkboxes].filter(c => c.checked).map(c => c.value);
+                continueButton.disabled = selectedSymptoms.length === 0;
+            });
+        });
+
+        continueButton.addEventListener("click", function() {
+            const selectedSymptoms = [...checkboxes].filter(c => c.checked).map(c => c.value);
+            if (selectedSymptoms.length > 0) {
+                localStorage.setItem("symptomQueue", JSON.stringify(selectedSymptoms));
+                window.location.href = selectedSymptoms[0] + ".html";
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
